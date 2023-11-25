@@ -1,0 +1,88 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+. 
+
+```{r}
+library(FactoMineR)
+data('decathlon')
+summary(decathlon)
+res <- PCA(decathlon,quanti.sup=11:12,quali.sup=13,ind.sup=1:5)
+summary(res)
+
+```
+
+```{r}
+summary(res ,nbelements = Inf)
+summary(res ,nbelements = Inf, file = "essai.txt")
+```
+```{r}
+plot(res)
+```
+
+```{r}
+plot(res)
+
+```
+
+
+```{r}
+plot(res, cex=0.8)
+
+```
+```{r}
+plot(res,cex=0.8,shadow=TRUE)
+```
+```{r}
+plot(res,cex=0.8,shadow=TRUE,habillage = 13)
+
+```
+```{r}
+plot(res,cex=0.8,shadow=TRUE,habillage = 13,invisible = "ind.sup")
+
+```
+```{r}
+plot(res,cex=0.8,shadow=TRUE,habillage = 13,invisible = c("ind.sup","quali"))
+```
+```{r}
+plot(res,cex=0.8,shadow=TRUE,habillage = 13,select = "cos2 0.7")
+```
+```{r}
+plot(res,cex=0.8,shadow=TRUE,habillage = 13,select = "cos2 0.7",unselect = 0)
+```
+
+```{r}
+plot(res,cex=0.8,shadow=TRUE,habillage = 13,select = "cos2 0.7",unselect = 1)
+```
+
+
+```{r}
+plot(res,cex=0.8,shadow=TRUE,habillage = 13,select="cos2 5")
+```
+
+```{r}
+plot(res,cex=0.8,shadow=TRUE,habillage = 13,select="contrib 5")
+```
+```{r}
+plot(res,cex=0.8,shadow=TRUE,habillage = 13,select=c("Clay","Karpov"))
+```
+
+```{r}
+plot(res,cex=0.8,shadow=TRUE,habillage = 13,select=1:5)
+```
+
+```{r}
+plot(res,choix="var")
+```
+
+```{r}
+plot(res,choix="var",shadow="TRUE")
+
+```
+
+

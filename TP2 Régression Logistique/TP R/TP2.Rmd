@@ -1,0 +1,109 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+EXERCICE 1
+
+
+```{r}
+
+library(magrittr) 
+library(dplyr)
+
+```
+
+```{r}
+maladie= read.table('Data/MCV.txt',header=TRUE)
+attach(maladie)
+
+
+```
+```{r}
+plot(maladie[,c('AGE', 'CHD')])
+```
+aucune relation
+```{r}
+n_i=tapply(X=CHD,INDEX=AGRP,FUN=sum)
+n=tapply(X=CHD,INDEX=AGRP,FUN=length)
+p=n_i/n
+centre=c(24.5,32,37,42,47,52,57,64.5)
+cbind(centre,n_i,n,p)
+plot(p~centre, ylab=expression(italic(~pi)~(bold(x))))
+
+```
+
+
+
+
+```{r}
+CHD.logit = glm(CHD~AGE, family=binomial(link="logit"))
+
+summary(CHD.logit)
+```
+```{r}
+beta0=coef(CHD.logit)[1]; beta1=coef(CHD.logit)[2]
+abscisse1 = seq(0,100,length=100)
+plot(centre,p,col='red',lwd=3,xlim=c(20,70),ylim=c(0.1,0.8),
+xlab="Age",ylab=expression(italic(~pi)~(bold(x))))
+lines(abscisse1,plogis(beta0 + beta1*abscisse1),col='blue',lwd=4,lty=3)
+title("Proportions observées et ajustées")
+legend("topleft", c("obs","logit"),lwd=3,col=c("red","blue"))
+```
+
+
+```{r}
+CHD.probit = glm(CHD~AGE, family=binomial(link="probit"))
+
+summary(CHD.probit)
+```
+```{r}
+beta0P=coef(CHD.probit)[1];beta1P=coef(CHD.probit)[2]
+beta0/beta0P; beta1/beta1P
+
+plot(centre,p,col='red',lwd=3,xlim=c(20,70),ylim=c(0.1,0.8),
+xlab="Age",ylab=expression(italic(~pi)~(bold(x))))
+lines(abscisse1,plogis(beta0 + beta1*abscisse1),col='blue',lwd=4,lty=3)
+lines(abscisse1,pnorm(beta0P + beta1P*abscisse1),col='green',lwd=3,lty=2)
+title("Proportions observées et ajustées")
+legend("topleft", c("obs","logit","probit"),
+lwd=3,col=c("red","blue","green"))
+```
+
+EXERCICE 2
+```{r}
+
+library(ISLR)
+data(Default); attach(Default)
+
+summary(Default)
+```
+```{r}
+Default$default= as.numeric(Default$default)-1
+head(Default)
+
+
+```
+
+```{r}
+fit.glm1=glm(default ~ balance,data=Default,family=binomial)
+fit.glm1
+
+
+```
+```{r}
+fit.glm1$coeff
+fit.glm1$deviance
+
+```
+
+```{r}
+xnew=data.frame(balance=c(1000,1500,2000,3000))
+xnew
+predict.glm(fit.glm1,xnew,type="response")
+
+```
+
+
+
+
